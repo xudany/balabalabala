@@ -17,6 +17,23 @@ function route (path, view) {
   }
 }
 
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      component: resolve => require([`../pages/home_view.vue`], resolve)
+    },
+    {
+      path: '/users/inside/add',
+      component: resolve => require([`../pages/users_inside_add_view.vue`], resolve)
+    },
+    {
+      path: '/admin/business/merchant/list',
+      component: resolve => require([`../pages/admin_business_merchant_list_view.vue`], resolve)
+    }
+  ]
+})
+
 export function createRouter () {
   const router = new Router({
     mode: 'history',
