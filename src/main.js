@@ -1,19 +1,34 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+'use strict'
 
-Vue.config.productionTip = false
+// import 'es6-promise/auto'
+import { createApp } from './app'
 
-Vue.use(ElementUI)
+const { app, router, store } = createApp()
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App }
+router.onReady(() => {
+  // Add router hook for handling asyncData.
+  // Doing it after initial route is resolved so that we don't double-fetch
+  // the data that we already have. Using router.beforeResolve() so that all
+  // async components are resolved.
+  router.beforeResolve((to, from, next) => {
+    const matched = router.getMatchedComponents(to)
+    const prevMatched = router.getMatchedComponents(from)
+    let diffed = false
+    const activated = matched.filter((c, i) => {
+      return diffed || (diffed = (prevMatched[i] !== c))
+    })
+    if (!activated.length) {
+      return next()
+    }
+    Promise.all(activated.map(c => {
+      if (c.asyncData) {
+        return c.asyncData({ store, route: to })
+      }
+    })).then(() => {
+      next()
+    }).catch(next)
+  })
+
+  // actually mount to DOM
+  app.$mount('#app')
 })

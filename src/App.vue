@@ -17,6 +17,10 @@
 
         el-main
           router-view
+
+        el-footer(style="background-color: rgb(66,66,66)")
+          span
+          span(style="color: #fff") © 2017
   </div>
 </template>
 
@@ -39,19 +43,6 @@
 <script>
   export default {
     name: 'app',
-    // name: 'navigation',
-    // computed: {
-    //   drawer: {
-    //     get () {
-    //       return this.$store.state.drawer
-    //     },
-    //     set (val) {
-    //       this.$store.commit('drawer', val)
-    //     }
-    //   }
-    // },
-    // methods: {
-    // },
     data () {
       return {
         mini: false,
