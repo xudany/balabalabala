@@ -9,7 +9,7 @@
             el-select(v-model="select" placeholder="请选择")
               el-option(v-for="item in items" :key="item.value" :label="item.lable" :value="item.value")
           el-col(:span="7")
-            el-input(placeholder="请选择日期" suffix-icon="el-icon-search" v-model="input1")
+            el-input(placeholder="请填写" suffix-icon="el-icon-search" v-model="input1")
           el-col(:span="3")
             el-button.round 查找
         el-row(style="margin-top:5%")
@@ -26,8 +26,8 @@
                       el-table-column(prop="operator" label="审核人")
                       el-table-column(porp="operation" label="操作")
                         template(slot-scope="scope")
-                          el-button.round 初审
-                          el-button(type="primary") 复审
+                          el-button.round( @click="trial(scope.row.account)") 初审
+                          el-button(type="primary" @click="retrial(scope.row.account)") 复审
                   el-row(style="text-align:center; margin-top:3%")
                     el-pagination(background layout="prev, pager, next" :total="10")
               //- 审核通过列表
@@ -81,6 +81,17 @@
       }
     },
     methods: {
+      handleEdit (index, row) {
+        console.log(index, row)
+      },
+      trial (account) {
+        let id = account
+        this.$router.push({ path: '/admin/business/store/trial?id=' + id })
+      },
+      retrial (account) {
+        let id = account
+        this.$router.push({ path: '/admin/business/store/retrial?id=' + id })
+      }
     }
   }
 </script>

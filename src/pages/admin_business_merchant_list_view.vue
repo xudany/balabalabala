@@ -9,7 +9,7 @@
             el-select(v-model="select" placeholder="请选择")
               el-option(v-for="item in items" :key="item.value" :label="item.lable" :value="item.value")
           el-col(:span="7")
-            el-input(placeholder="请选择日期" suffix-icon="el-icon-search" v-model="input1")
+            el-input(placeholder="请填写" suffix-icon="el-icon-search" v-model="input1")
           el-col(:span="3")
             el-button.round 查找
         el-row(style="margin-top:5%")
